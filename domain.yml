@@ -1,8 +1,20 @@
 intents:
-  - greet
+  - greet: {triggers: action_greet}
   - bye
   - thank
   - faq
+  - contact_sales
+  - inform
+  - explain
+  - out_of_scope
+
+entities:
+  - company
+  - job_function
+  - person_name
+  - budget
+  - business_email
+  - use_case
 
 responses:
   utter_noworries:
@@ -11,6 +23,39 @@ responses:
     - text: Hi
   utter_bye:
     - text: Bye!
+  utter_ask_business_email: 
+    - text: What's your business email?
+  utter_ask_company:
+    - text: What company do you work for?
+  utter_ask_budget:
+    - text: "What's your annual budget for conversational AI? 💸"
+  utter_ask_job_function:
+    - text: "What's your job? 🕴"
+  utter_ask_person_name:
+    - text: What's your name?
+  utter_ask_use_case:
+    - text: What's your use case?
+  utter_explain_why_budget:
+    - text: We need to know your budget to recommend a subscription
+  utter_explain_why_email:
+    - text: We need your email so we can contact you
+  utter_out_of_scope:
+    - text: Sorry, I can’t handle that request.
 
 actions:
+    - action_greet
     - respond_faq
+
+slots:
+    requested_slot:
+        type: categorical
+        values:
+            - business_email
+            - company
+            - person_name
+            - use_case
+            - budget
+            - job_function
+
+forms:
+    - sales_form

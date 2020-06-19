@@ -20,5 +20,8 @@ pipeline:
 # https://rasa.com/docs/rasa/core/policies/
 policies:
   - name: MemoizationPolicy
-    max_history: 1
+  - name: KerasPolicy
   - name: MappingPolicy
+  - name: FormPolicy
+  - name: TwoStageFallbackPolicy
+    nlu_threshold: 0.8
