@@ -7,6 +7,13 @@ Enviroment setup:
     pip version: 20.1.2
     pip install rasa
     
-Or use virtual env:
+Or use virtual env (will be have to be done for every tmux window):
 
     source ./venv/bin/activate
+
+To run rasa with command line shell:
+
+    rasa train
+    rasa actions start (in seperate window)
+    rasa shell
+    
