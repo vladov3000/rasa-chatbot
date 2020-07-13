@@ -2,3 +2,4 @@ models
 *.swp
 venv
 __pycache__
+results
