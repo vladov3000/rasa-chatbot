@@ -14,6 +14,6 @@ Or use virtual env (will be have to be done for every tmux window):
 To run rasa with command line shell:
 
     rasa train
-    rasa actions start (in seperate window)
+    rasa run actions (in seperate window)
     rasa shell
     
