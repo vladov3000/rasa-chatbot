@@ -17,3 +17,6 @@ To run rasa with command line shell:
     rasa run actions (in seperate window)
     rasa shell
     
+To run tests:
+
+    rasa test --stories tests/conversation_tests.md
