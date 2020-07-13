@@ -1,2 +1,4 @@
 models
+*.swp
+venv
 __pycache__
