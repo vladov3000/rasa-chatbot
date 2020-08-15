@@ -11,13 +11,14 @@
 6. On the sidebar select Compute Engine -> VM Instances
 7. Create VM instance:
 8. Machine type set to n1-standard-4(4 vCPU, 15 GB memory)
-9. Change Boot Disk Image to 100 GB Ubuntu 16.02
+9. Change Boot Disk Image to 100 GB Ubuntu 20.04
 10. Create instance
 11. Click on ssh button for instance
 12. git clone https://github.com/vladov3000/rasa-tutorial.git
 12. cd rasa-tutorial
 13. sudo apt-get update
 14. sudo apt install python3-pip
+16. sudo pip3 install --upgrade pip==18.0
 15. pip3 install -r requirements.txt
 16. rasa train
 17. rasa run actions (in seperate window)
