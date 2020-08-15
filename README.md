@@ -18,8 +18,8 @@
 12. cd rasa-tutorial
 13. sudo apt-get update
 14. sudo apt install python3-pip
-16. sudo pip3 install --upgrade pip==18.0
-15. pip3 install -r requirements.txt
+16. pip3 install --upgrade tensorflow rasa
+15. pip3 install rasa
 16. rasa train
 17. rasa run actions (in seperate window)
 18. rasa shell
