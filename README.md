@@ -27,6 +27,18 @@
 19. rasa run actions (in seperate window)
 20. rasa shell
 
+## Run Telegram API
+
+1. sudo apt-get install nginx
+2. sudo apt install docker.io
+3. sudo apt install docker-compose
+6. sudo groupadd docker
+7. sudo usermod -aG docker $USER
+8. newgrp docker 
+4. sudo service nginx start
+5. sudo service docker start
+6. docker-compose up
+
 Enviroment setup:
 
     Ubuntu 18
