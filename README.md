@@ -14,6 +14,14 @@
 9. Change Boot Disk Image to 100 GB Ubuntu 20.04
 10. Create instance
 11. Click on ssh button for instance
+12. git clone https://github.com/vladov3000/rasa-tutorial.git
+12. cd rasa-tutorial
+13. sudo apt-get update
+14. sudo apt install python3-pip
+15. pip3 install -r requirements.txt
+16. rasa train
+17. rasa run actions (in seperate window)
+18. rasa shell
 
 Enviroment setup:
 
