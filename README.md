@@ -23,6 +23,7 @@
 16. ls /home
 17. export PATH=$PATH:/home/$USERNAMEHERE/.local/bin
 18. rasa train
+19. tmux (ctrl B, C to create window ctrl B, 1 to switch to window 1)
 19. rasa run actions (in seperate window)
 20. rasa shell
 
