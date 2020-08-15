@@ -20,9 +20,12 @@
 14. sudo apt install python3-pip
 15. pip3 install --upgrade pip
 16. pip3 install rasa==1.10.2
-17. rasa train
-18. rasa run actions (in seperate window)
-19. rasa shell
+16. ls /home
+17. export PATH=$PATH:/home/$USERNAMEHERE/.local/bin
+18. rasa train
+19. tmux (ctrl B, C to create window ctrl B, 1 to switch to window 1)
+19. rasa run actions (in seperate window)
+20. rasa shell
 
 Enviroment setup:
 
