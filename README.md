@@ -1,6 +1,7 @@
 # rasa assistant
 
 ## Google Cloud VM setup
+
 1. Go to https://console.cloud.google.com/
 2. Sign in with .edu
 3. Activate Google Cloud $300 credit (requires credit card but no autocharge)
@@ -12,6 +13,7 @@
 8. Machine type set to n1-standard-4(4 vCPU, 15 GB memory)
 9. Change Boot Disk Image to 100 GB Ubuntu 20.04
 10. Create instance
+11. Click on ssh button for instance
 
 Enviroment setup:
 
