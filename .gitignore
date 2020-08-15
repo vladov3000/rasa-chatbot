@@ -3,3 +3,4 @@ models
 venv
 __pycache__
 results
+credentials.yml
