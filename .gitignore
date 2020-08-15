@@ -4,3 +4,4 @@ venv
 __pycache__
 results
 credentials.yml
+nginx/certs/fullchain.pem

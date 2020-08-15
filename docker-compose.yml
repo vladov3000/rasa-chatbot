@@ -1,0 +1,42 @@
+version: '3.0'
+
+services:
+  rasa:
+    image: rasa/rasa:1.10.0-full
+    networks: ['rasa-network']
+    ports:
+    - "5005:5005"
+    volumes:
+    - "./:/app/"
+    depends_on:
+    - "duckling"
+    - "action_server"
+    - "nginx"
+    entrypoint:
+      ["rasa","run", "-m", "models", "--endpoints", "endpoints.yml", "--port", "5005", "--credentials", "credentials.yml","--debug"]
+
+  action_server:
+    image: rasa/actions
+    networks: ['rasa-network']
+    ports:
+    - "5055:5055"
+    volumes:
+    - "./actions:/app/actions"
+
+  duckling:
+    image: rasa/duckling:latest
+    networks: ['rasa-network']
+    ports:
+    - "8000:8000"
+
+  nginx:
+    image: nginx
+    networks: ['rasa-network']
+    ports:
+    - "80:80"
+    - "443:443"
+    volumes:
+    - "./nginx/conf:/etc/nginx/conf.d"
+    - "./nginx/certs:/etc/letsencrypt/live/rasabot.life"
+
+networks: {rasa-network: {}}
