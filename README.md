@@ -35,9 +35,10 @@
 6. sudo groupadd docker
 7. sudo usermod -aG docker $USER
 8. newgrp docker 
-4. sudo service nginx start
-5. sudo service docker start
-6. docker-compose up
+9. docker login
+10. sudo service nginx start
+11. sudo service docker start
+12. docker-compose up
 
 Enviroment setup:
 
