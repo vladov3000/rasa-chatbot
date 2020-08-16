@@ -38,7 +38,44 @@
 9. docker login
 10. sudo service nginx start
 11. sudo service docker start
-12. docker-compose up
+13. sudo apt-get install snapd
+14. sudo apt-get remove certbot  
+NOTE: make sure to allow HTTP and HTTPS traffic to VM. 
+15. docker build -t rasa/actions -f Dockerfile.actions .
+13. docker-compose up
+
+## Run Kubernetes
+
+### Install kubernetes cli
+    curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+    chmod +x ./kubectl
+    sudo mv ./kubectl /usr/local/bin/kubectl
+    kubectl version --client
+
+### Install minikube
+    curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 \ && chmod +x minikube
+    sudo mkdir -p /usr/local/bin/
+    sudo install minikube /usr/local/bin/`
+    minikube start --driver=docker
+    kubectl get nodes
+    
+### Convert docker compose to kube resources
+    curl -L https://github.com/kubernetes/kompose/releases/download/v1.21.0/kompose-linux-amd64 -o kompose
+    chmod +x kompose
+    sudo mv ./kompose /usr/local/bin/kompose
+    kompose convert --volumes hostPath -o kuberes
+    sed -ri "s/extensions\/v1beta1/networking.k8s.io\/v1/" kuberes/rasa-network-networkpolicy.yaml
+    
+### Run kubernetes
+    sudo docker build -t rasa/train -f Dockerfile.train .
+    docker save rasa/actions | pv | (eval $(minikube docker-env) && docker load)
+    docker save rasa/train | pv | (eval $(minikube docker-env) && docker load)
+    kubectl create configmap action-config --from-file=actions
+    kubectl get configmap action-config -o yaml > kuberes/action-config.yml
+    (Fix rasa-action-deploy to use config map instead of persistent volume)
+    kubectl apply -f kuberes
+    kubectl get pods
+    sudo kubectl proxy --port=80
 
 Enviroment setup:
 
@@ -47,7 +84,7 @@ Enviroment setup:
     pip version: 20.1.2
     rasa == 1.10.2
     
-Or use virtual env (will be have to be done for every tmux window):
+Or use virtual env (you will have to be source for every tmux window):
 
     python3 -m venv ./venv
     source /venv/bin/activate
