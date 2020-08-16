@@ -72,9 +72,13 @@ NOTE: make sure to allow HTTP and HTTPS traffic to VM.
     docker save rasa/train | pv | (eval $(minikube docker-env) && docker load)
     kubectl create configmap action-config --from-file=actions
     kubectl get configmap action-config -o yaml > kuberes/action-config.yml
+    kubectl create configmap nginx-config --from-file=nginx/conf
+    kubectl get configmap nginx-config -o yaml > kuberes/nginx-config.yml
+    sudo kubectl create configmap nginx-cert-config --from-file nginx/certs/
     (Fix rasa-action-deploy to use config map instead of persistent volume)
     kubectl apply -f kuberes
     kubectl get pods
+    sudo kubectl port-forward nginx-745d76696b-tv98m 80:80
     sudo kubectl proxy --port=80
 
 Enviroment setup:
