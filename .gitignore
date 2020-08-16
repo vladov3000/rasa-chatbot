@@ -5,3 +5,4 @@ __pycache__
 results
 credentials.yml
 nginx/certs/fullchain.pem
+privkey.pem
