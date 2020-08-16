@@ -39,9 +39,8 @@
 10. sudo service nginx start
 11. sudo service docker start
 13. sudo apt-get install snapd
-14. sudo apt-get remove certbot
-NOTE: make sure to allow HTTP and HTTPS traffic to VM
-
+14. sudo apt-get remove certbot  
+NOTE: make sure to allow HTTP and HTTPS traffic to VM. 
 15. docker build -t rasa/actions -f Dockerfile.actions .
 13. docker-compose up
 
