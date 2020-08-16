@@ -1,0 +1,97 @@
+apiVersion: v1
+data:
+  __init__.py: ""
+  actions.py: |
+    from typing import Text, List, Dict, Any, Union
+    import time
+    from ruamel import yaml
+
+    from rasa_sdk import Action, Tracker
+    from rasa_sdk.executor import CollectingDispatcher
+    from rasa_sdk.forms import FormAction
+    from rasa_sdk.events import UserUtteranceReverted
+
+
+    class ActionGreetUser(Action):
+        """Revertible mapped action for utter_greet"""
+
+        def name(self):
+            return "action_greet"
+
+        def run(self, dispatcher, tracker, domain):
+            dispatcher.utter_template("utter_greet", tracker)
+            return [UserUtteranceReverted()]
+
+
+    class SalesForm(FormAction):
+        """Collects sales information and adds it to the spreadsheet"""
+
+        def name(self):
+            return "sales_form"
+
+        @staticmethod
+        def required_slots(tracker):
+            return [
+                    "job_function",
+                    "use_case",
+                    "budget",
+                    "person_name",
+                    "company",
+                    "business_email",
+                ]
+
+        def submit(
+                    self,
+                    dispatcher: CollectingDispatcher,
+                    tracker: Tracker,
+                    domain: Dict[Text, Any],
+                ) -> List[Dict]:
+            print(f"Result Slot Values: {tracker.current_slot_values()}")
+            dispatcher.utter_message(
+            "Thanks for getting in touch, we’ll contact you soon")
+            with open(f'saves/saved_data{time.time()}.yml', 'w+') as save_file:
+                yaml.dump(tracker.current_slot_values())
+            return []
+
+        def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict[Text, Any]]]]:
+            """A dictionary to map required slots to
+            - an extracted entity
+            - intent: value pairs
+            - a whole message
+            or a list of them, where a first match will be picked"""
+            return {"use_case": self.from_text(intent="inform")}
+  requirements-actions.txt: |
+    beautifulsoup4~=4.6.3
+    requests~=2.21.0
+    geopy~=1.18.1
+    pandas~=0.24.1
+    algoliasearch>=2.0,<3.0
+    spacy~=2.1.9
+    ruamel.yaml~=0.16.10
+kind: ConfigMap
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","data":{"__init__.py":"","actions.py":"from typing import Text, List, Dict, Any, Union\nimport time\nfrom ruamel import yaml\n\nfrom rasa_sdk import Action, Tracker\nfrom rasa_sdk.executor import CollectingDispatcher\nfrom rasa_sdk.forms import FormAction\nfrom rasa_sdk.events import UserUtteranceReverted\n\n\nclass ActionGreetUser(Action):\n    \"\"\"Revertible mapped action for utter_greet\"\"\"\n\n    def name(self):\n        return \"action_greet\"\n\n    def run(self, dispatcher, tracker, domain):\n        dispatcher.utter_template(\"utter_greet\", tracker)\n        return [UserUtteranceReverted()]\n\n\nclass SalesForm(FormAction):\n    \"\"\"Collects sales information and adds it to the spreadsheet\"\"\"\n\n    def name(self):\n        return \"sales_form\"\n\n    @staticmethod\n    def required_slots(tracker):\n        return [\n                \"job_function\",\n                \"use_case\",\n                \"budget\",\n                \"person_name\",\n                \"company\",\n                \"business_email\",\n            ]\n\n    def submit(\n                self,\n                dispatcher: CollectingDispatcher,\n                tracker: Tracker,\n                domain: Dict[Text, Any],\n            ) -\u003e List[Dict]:\n        print(f\"Result Slot Values: {tracker.current_slot_values()}\")\n        dispatcher.utter_message(\n        \"Thanks for getting in touch, we’ll contact you soon\")\n        with open(f'saves/saved_data{time.time()}.yml', 'w+') as save_file:\n            yaml.dump(tracker.current_slot_values())\n        return []\n\n    def slot_mappings(self) -\u003e Dict[Text, Union[Dict, List[Dict[Text, Any]]]]:\n        \"\"\"A dictionary to map required slots to\n        - an extracted entity\n        - intent: value pairs\n        - a whole message\n        or a list of them, where a first match will be picked\"\"\"\n        return {\"use_case\": self.from_text(intent=\"inform\")}\n","requirements-actions.txt":"beautifulsoup4~=4.6.3\nrequests~=2.21.0\ngeopy~=1.18.1\npandas~=0.24.1\nalgoliasearch\u003e=2.0,\u003c3.0\nspacy~=2.1.9\nruamel.yaml~=0.16.10\n"},"kind":"ConfigMap","metadata":{"annotations":{},"creationTimestamp":"2020-08-16T09:29:17Z","managedFields":[{"apiVersion":"v1","fieldsType":"FieldsV1","fieldsV1":{"f:data":{".":{},"f:__init__.py":{},"f:actions.py":{},"f:requirements-actions.txt":{}},"f:metadata":{"f:annotations":{".":{},"f:kubectl.kubernetes.io/last-applied-configuration":{}}}},"manager":"kubectl","operation":"Update","time":"2020-08-16T14:10:59Z"}],"name":"action-config","namespace":"default","resourceVersion":"19335","selfLink":"/api/v1/namespaces/default/configmaps/action-config","uid":"32da8d92-0c35-4fcc-8ac7-ba08fcb85a28"}}
+  creationTimestamp: "2020-08-16T09:29:17Z"
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:data:
+        .: {}
+        f:__init__.py: {}
+        f:actions.py: {}
+        f:requirements-actions.txt: {}
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:kubectl.kubernetes.io/last-applied-configuration: {}
+    manager: kubectl
+    operation: Update
+    time: "2020-08-16T14:15:11Z"
+  name: action-config
+  namespace: default
+  resourceVersion: "19771"
+  selfLink: /api/v1/namespaces/default/configmaps/action-config
+  uid: 32da8d92-0c35-4fcc-8ac7-ba08fcb85a28

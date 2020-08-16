@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert --volumes hostPath -o kuberes
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: action-server
+  name: action-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: action-server
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert --volumes hostPath -o kuberes
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/rasa-network: "true"
+        io.kompose.service: action-server
+    spec:
+      containers:
+      - image: rasa/actions
+        imagePullPolicy: "Never"
+        name: action-server
+        ports:
+        - containerPort: 5055
+        resources: {}
+        volumeMounts:
+        - mountPath: /app/actions
+          name: action-config-volume
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes:
+      - configMap:
+          name: action-config
+        name: action-config-volume
+status: {}

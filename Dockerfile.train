@@ -1,0 +1,30 @@
+# Pull SDK image as base image
+FROM rasa/rasa-sdk:1.10.0
+
+# Use subdirectory as working directory
+WORKDIR /app
+COPY actions/requirements-actions.txt ./
+COPY requirements-train.txt ./
+
+# Copy actions code to working directory
+COPY ./actions /app/actions
+
+# COPY setup.py ./
+# COPY setup.cfg ./
+COPY config.yml ./
+COPY domain.yml ./
+COPY endpoints.yml ./
+COPY data ./data/
+
+# Change to root user to install dependencies
+USER root
+
+# Install extra requirements for actions code
+RUN pip install -r requirements-train.txt
+RUN python -m spacy download en
+# RUN pip install -e . --no-cache-dir
+
+# use root user to run code
+USER root
+
+CMD ["rasa", "train"]

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert --volumes hostPath -o kuberes
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: rasa
+  name: rasa
+spec:
+  ports:
+  - name: "5005"
+    port: 5005
+    targetPort: 5005
+  selector:
+    io.kompose.service: rasa
+status:
+  loadBalancer: {}

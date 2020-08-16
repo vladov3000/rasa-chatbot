@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert --volumes hostPath -o kuberes
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: rasa
+  name: rasa
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: rasa
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert --volumes hostPath -o kuberes
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/rasa-network: "true"
+        io.kompose.service: rasa
+    spec:
+      containers:
+      - command:
+        - rasa
+        - run
+        - -m
+        - models
+        - --endpoints
+        - endpoints.yml
+        - --port
+        - "5005"
+        - --credentials
+        - credentials.yml
+        - --debug
+        image: rasa/rasa:1.10.0-full
+        imagePullPolicy: ""
+        name: rasa
+        ports:
+        - containerPort: 5005
+        resources: {}
+        volumeMounts:
+        - mountPath: /app/
+          name: rasa-hostpath0
+        - mountPath: /app/models
+          name: rasa-hostpath1
+      restartPolicy: Always
+      serviceAccountName: ""
+      initContainers:
+      - name: training-model
+        image: rasa/train
+        imagePullPolicy: Never
+        volumeMounts:
+        - mountPath: /app/models
+          name: rasa-hostpath1
+        command: ["rasa", "train"]
+      volumes:
+      - hostPath:
+          path: /home/vladov/rasa-tutorial
+        name: rasa-hostpath0
+      - hostPath:
+          path: /home/vladov/rasa-tutorial/models
+        name: rasa-hostpath1
+status: {}

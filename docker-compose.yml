@@ -8,6 +8,7 @@ services:
     - "5005:5005"
     volumes:
     - "./:/app/"
+    - "./models:/app/models"
     depends_on:
     - "duckling"
     - "action_server"
