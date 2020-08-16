@@ -35,16 +35,16 @@ spec:
         resources: {}
         volumeMounts:
         - mountPath: /etc/nginx/conf.d
-          name: nginx-hostpath0
+          name: nginx-config-volume
         - mountPath: /etc/letsencrypt/live/rasabot.life
-          name: nginx-hostpath1
+          name: nginx-cert-volume
       restartPolicy: Always
       serviceAccountName: ""
       volumes:
-      - hostPath:
-          path: /home/vladov/rasa-tutorial/nginx/conf
-        name: nginx-hostpath0
-      - hostPath:
-          path: /home/vladov/rasa-tutorial/nginx/certs
-        name: nginx-hostpath1
+      - configMap:
+          name: nginx-config
+        name: nginx-config-volume
+      - configMap:
+          name: nginx-cert-config
+        name: nginx-cert-volume
 status: {}
